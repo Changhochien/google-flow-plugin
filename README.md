@@ -10,7 +10,11 @@ google-flow-plugin/
 ├── README.md
 └── skills/
     └── google-flow/
-        └── SKILL.md
+        ├── SKILL.md
+        └── references/
+            ├── characters.md
+            ├── tools.md
+            └── video-and-scenes.md
 ```
 
 ## Installation
