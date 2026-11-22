@@ -14,7 +14,7 @@ Drive `https://flow.google.com/` via the `browser` subagent (`Model: "flash"`).
 ## Core Rules & Browser Token Efficiency
 - **Pass selectors in the prompt:** The `browser` subagent does not read this file—include exact selectors, wait conditions, and a clear completion condition when delegating.
 - **Minimize browser turns & screenshots:** Instruct the subagent to batch DOM interactions in script steps, use a single script wait loop for generation overlays instead of polling with screenshots, set desktop viewport (`>= 1280px` wide so the left `Project navigation` sidebar is visible), and reuse the same subagent via `send_message` for follow-ups in the same project.
-- **Auth & uploads:** Pause for user sign-in on `accounts.google.com`. Stage local uploads in `browser_sandbox/uploads/<filename>` **after** sign-in succeeds (cross-domain login redirects wipe `uploads/`).
+- **Auth & uploads:** Pause for user sign-in on `accounts.google.com`. Stage local uploads in `browser_sandbox/uploads/<filename>` **after** sign-in succeeds (cross-domain login redirects wipe `uploads/`). If programmatic upload (`setInputFiles` / `fileChooser`) hits a sandbox auth block (`NAVIGATION_NEEDS_PERMISSION`), pause and ask the user to click `Upload media` manually (never bypass via Computer Use), or attach an in-project asset instead.
 - **Credit safety:** Check the credit cost in `Settings trigger` (or tool footer) before clicking `Start generation`. If cost > `0 credits`, confirm model, count, and cost with the user first.
 - **Model drift:** If a model label changed (e.g., `Nano Banana 2.1`), pick the closest matching model family and report the actual label used.
 
@@ -30,7 +30,10 @@ Drive `https://flow.google.com/` via the `browser` subagent (`Model: "flash"`).
 ### 3. Attach Ingredients (Optional)
 - **Local file:** Stage file per Core Rules -> click **`button "Add ingredients to the prompt box"`** (`+`) -> **`Upload media`**.
 - **Existing asset:** Click `+` (or right-click tile -> **`Add to prompt`**), filter via `Select project` / `Category navigation`, select asset -> **`Add to prompt`**.
-- **Spatial consistency tip:** Avoid 2.5D/cutaway dioramas as location references (causes dollhouse framing bleed). Generate a full-frame, ultra-wide (`14mm`–`21mm`) empty interior establishing shot (plus optional `180°` reverse angle), and attach it alongside clean neutral-lit character portraits as `Ingredient` chips.
+- **Multi-angle & ingredient hygiene:**
+  - Avoid 2.5D/cutaway dioramas (dollhouse bleed); for live-action scenes prefer `35mm`–`50mm` framing over `14mm`–`21mm` ultra-wides (reduces sterile CGI look).
+  - Never generate a reverse or alternate angle with `0` ingredients: attach the approved master image as a `+` `Ingredient` (plus an optional layout/3D guide if uploaded) and explicitly state flipped landmark positions and camera-relative light direction (e.g., window left -> right on a `180°` reverse).
+  - When pairing a grey 3D layout guide with a master photo, instruct Flow to use the grey guide for camera/geometry only and replace all grey surfaces with the master photo's real materials.
 
 ### 4. Generate & Wait
 1. Fill `[contenteditable="true"][aria-label="What do you want to create?"]` (use `fill()` or `click({ force: true })` if an inner child intercepts).
