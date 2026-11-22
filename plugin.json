@@ -1,0 +1,10 @@
+{
+  "name": "google-flow",
+  "description": "Generate, edit, animate, and download images, characters, video shots, and scenes using Google Flow (flow.google.com) via Antigravity's browser subagent.",
+  "suggestedPrompts": [
+    "Create a new Google Flow project and generate 4 16:9 reference images",
+    "Create clean Portrait and Body character references in Google Flow",
+    "Generate a 14mm full-frame empty location reference and 180-degree reverse angle",
+    "Animate an image into a video shot and assemble it into a Google Flow scene"
+  ]
+}
